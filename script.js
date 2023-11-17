@@ -25,7 +25,17 @@ createBoard(level);
 
 const cellElements = document.querySelectorAll(".cell");
 
-cpu(level, player(level));
+async function startGame(level) {
+  console.log("ejecutando el turno la cpu.....")
+  await cpu2(level)
+  player(level)
+  console.log("la cpu ha termiando, turno del jugador...")
+}
+
+startGame(level)
+
+
+
 
 function createBoard(cells) {
   board = Array(cells).fill(4);
@@ -58,8 +68,7 @@ function randomThrow(level) {
   // cpuThrow.forEach((_,index) => {
   //   cpuThrow[index] = randomNumber(level)
   // })
-
-  const cpuThrow = Array.from({ length: level }, () => randomNumber(level));
+  const cpuThrow = Array.from({ length: level }, () => randomNumber(level)); 
   return cpuThrow;
 }
 
@@ -78,34 +87,91 @@ function cpu(level) {
         celdas[0].style.backgroundColor = "green";
         setTimeout(() => {
           celdas[0].style.backgroundColor = "white";
-        }, 1000);    
+        }, 500);    
       } else if (cpuThrow[i] === 1) {
         celdas[1].style.backgroundColor = "red";
         setTimeout(() => {
           celdas[1].style.backgroundColor = "white";
-        }, 1000);
+        }, 500);
       } else if (cpuThrow[i] === 2) {
         celdas[2].style.backgroundColor = "yellow";
         setTimeout(() => {
           celdas[2].style.backgroundColor = "white";
-        }, 1000);
+        }, 500);
       } else if (cpuThrow[i] === 3) {
         celdas[3].style.backgroundColor = "blue";
         setTimeout(() => {
           celdas[3].style.backgroundColor = "white";
-        }, 1000);
+        }, 500);
       }
-    }, i * 2000);
+    }, i * 1500);
   }
 }
 
 function player(level) {
   const cellElements = document.querySelectorAll('.cell')
-  const playerSelection = Array(level).fill("")
-  cellElements.forEach((cell, index) => {
-    cell.classList.remove('no-click')
-    cell.addEventListener('click', () => {
-      playerSelection.push(cell.id);
+  const playerSelection = []
+  console.log(playerSelection.length)
+  if(playerSelection.length !== level) {
+    cellElements.forEach((cell, index) => {
+      cell.classList.remove('no-click')
+      cell.addEventListener('click', () => {
+        playerSelection.push(cell.id);
+        console.log(playerSelection.length)
+        if (playerSelection.length === level) {
+          console.log('array lleno')
+          cellElements.forEach(cell => {
+            cell.classList.add('no-click')
+          })
+        }
+      })
     })
+  }
+}
+
+
+// proves amb funcions asincrones................................................................
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+function highlightCell (cell, color, delayColor){
+  return new Promise(resolve => {
+    cell.style.backgroundColor = color
+    setTimeout(() => {
+      cell.style.backgroundColor = 'white'
+      resolve();
+    }, delayColor)
   })
 }
+
+async function cpu2(level) {
+  const inicio = Date.now()
+  console.log(inicio)
+  const cpuThrow = randomThrow(level)
+  const cells = document.querySelectorAll('.cell')
+
+  for (let i = 0; i < cells.length; i++) {
+    console.log(`iteracion${i}`)
+    await delay(1000)
+    if (cpuThrow[i] === 0) {
+      console.log('verde')
+      await highlightCell (cells[0], "green", 500)
+    } else if (cpuThrow[i] === 1) {
+      console.log('rojo')
+      await highlightCell (cells[1], "red", 400)
+    } else if (cpuThrow[i] === 2) {
+      console.log('amarillo')
+      await highlightCell (cells[2], "yellow", 400)
+    } else if (cpuThrow[i] === 3) {
+      console.log('azul')
+      await highlightCell (cells[3], "blue", 400)
+    }
+  }
+  console.log('termianda la funcion cpu2', cpuThrow)
+  const fin = Date.now()
+  console.log(fin)
+
+}
+
