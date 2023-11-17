@@ -5,22 +5,25 @@
 }
 
 .body{
-    min-width: 205px;
-    min-height: 100vh;
+    min-width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+.article {
+    display: flex;
 }
 
 .board {
     width: fit-content;
-    margin: 40px auto;
-    text-align: center;
     display:grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1px
+    gap: 1px;
 }
 
 .cell {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     border: 3px solid black;
 }
 
@@ -28,4 +31,8 @@
 .cell:focus {
     cursor: pointer;
     background-color: aquamarine;
+}
+
+.no-click {
+    pointer-events: none;
 }

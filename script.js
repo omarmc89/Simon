@@ -21,11 +21,11 @@ const level = 4;
 let board = [];
 
 const boardElement = document.querySelector(".board");
-const cellElements = document.querySelectorAll(".cell");
-
 createBoard(level);
 
-cpu();
+const cellElements = document.querySelectorAll(".cell");
+
+cpu(level, player(level));
 
 function createBoard(cells) {
   board = Array(cells).fill(4);
@@ -34,6 +34,7 @@ function createBoard(cells) {
     board[index] = index + 1;
     const div = document.createElement("div");
     div.className = "cell";
+    div.classList.add('no-click')
     div.id = index;
     const span = document.createElement("span");
     span.className = "cell_content";
@@ -64,7 +65,7 @@ function randomThrow(level) {
 
 // Representar secuencia en el tablero de juego
 
-function cpu() {
+function cpu(level) {
   const cpuThrow = randomThrow(level);
   console.log(cpuThrow);
   const celdas = document.querySelectorAll(".cell");
@@ -74,60 +75,37 @@ function cpu() {
   for (let i = 0; i < array.length; i++) {
     setTimeout(() => {
       if (cpuThrow[i] === 0) {
-        console.log(cpuThrow[i], 0);
         celdas[0].style.backgroundColor = "green";
         setTimeout(() => {
           celdas[0].style.backgroundColor = "white";
         }, 1000);    
       } else if (cpuThrow[i] === 1) {
-        console.log(cpuThrow[i], 1);
         celdas[1].style.backgroundColor = "red";
         setTimeout(() => {
           celdas[1].style.backgroundColor = "white";
         }, 1000);
       } else if (cpuThrow[i] === 2) {
-        console.log(cpuThrow[i], 2);
         celdas[2].style.backgroundColor = "yellow";
         setTimeout(() => {
           celdas[2].style.backgroundColor = "white";
         }, 1000);
       } else if (cpuThrow[i] === 3) {
-        console.log(cpuThrow[i], 3);
         celdas[3].style.backgroundColor = "blue";
         setTimeout(() => {
           celdas[3].style.backgroundColor = "white";
         }, 1000);
       }
-    }, i * 1000);
+    }, i * 2000);
   }
+}
 
-  // array.forEach((_, i) => {
-  //   setTimeout(() => {
-  //     if (cpuThrow[i] === 0) {
-  //       console.log(cpuThrow[i],0)
-  //         celdas[0].style.backgroundColor = 'green'
-  //         setTimeout(() => {
-  //           celdas[0].style.backgroundColor = 'trasparent'
-  //         }, 500);
-  //     } else if (cpuThrow[i] === 1) {
-  //       console.log(cpuThrow[i],1)
-  //         celdas[1].style.backgroundColor = 'red'
-  //         setTimeout(() => {
-  //           celdas[1].style.backgroundColor = 'trasparent'
-  //         }, 500);
-  //     } else if (cpuThrow[i] === 2) {
-  //       console.log(cpuThrow[i],2)
-  //         celdas[2].style.backgroundColor = 'yellow'
-  //         setTimeout(() => {
-  //           celdas[2].style.backgroundColor = 'trasparent'
-  //         }, 500);
-  //     } else if (cpuThrow[i] === 3) {
-  //       console.log(cpuThrow[i],3)
-  //         celdas[3].style.backgroundColor = 'blue'
-  //         setTimeout(() => {
-  //           celdas[3].style.backgroundColor = 'trasparent'
-  //         }, 500);
-  //     }
-  //   }, i * 500); // 1 segundo entre iteraciones del forEach
-  // });
+function player(level) {
+  const cellElements = document.querySelectorAll('.cell')
+  const playerSelection = Array(level).fill("")
+  cellElements.forEach((cell, index) => {
+    cell.classList.remove('no-click')
+    cell.addEventListener('click', () => {
+      playerSelection.push(cell.id);
+    })
+  })
 }
