@@ -1,0 +1,31 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.body{
+    min-width: 205px;
+    min-height: 100vh;
+}
+
+.board {
+    width: fit-content;
+    margin: 40px auto;
+    text-align: center;
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    border: 3px solid black;
+}
+
+.cell:hover,
+.cell:focus {
+    cursor: pointer;
+    background-color: aquamarine;
+}
