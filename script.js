@@ -19,9 +19,24 @@ Guardar informació en localstorage i json-server, per mostrar informes i rànki
 
 const level = 4;
 let board = [];
-
+const startButton = document.querySelector('#startGame')
+const stopButton = document.querySelector('#stopGame')
 const boardElement = document.querySelector(".board");
+
+let cpuThrow = []
+let playerThrow = []
+let endGame = false;
+
+
 createBoard(level);
+
+startButton.addEventListener('click', e => {
+  startGame(level)
+})
+stopButton.addEventListener('click', e => {
+  console.log("Game stopped")
+  window.location.reload()
+})
 
 const cellElements = document.querySelectorAll(".cell");
 
@@ -31,11 +46,6 @@ async function startGame(level) {
   player(level)
   console.log("la cpu ha termiando, turno del jugador...")
 }
-
-startGame(level)
-
-
-
 
 function createBoard(cells) {
   board = Array(cells).fill(4);
@@ -68,19 +78,17 @@ function randomThrow(level) {
   // cpuThrow.forEach((_,index) => {
   //   cpuThrow[index] = randomNumber(level)
   // })
-  const cpuThrow = Array.from({ length: level }, () => randomNumber(level)); 
+  cpuThrow = Array.from({ length: level }, () => randomNumber(level)); 
   return cpuThrow;
 }
 
 // Representar secuencia en el tablero de juego
 
 function cpu(level) {
-  const cpuThrow = randomThrow(level);
+  cpuThrow = randomThrow(level);
   console.log(cpuThrow);
   const celdas = document.querySelectorAll(".cell");
   const array = Array.from(celdas).map((celda) => parseInt(celda.id, 10));
-  console.log(array);
-
   for (let i = 0; i < array.length; i++) {
     setTimeout(() => {
       if (cpuThrow[i] === 0) {
@@ -110,23 +118,36 @@ function cpu(level) {
 
 function player(level) {
   const cellElements = document.querySelectorAll('.cell')
-  const playerSelection = []
-  console.log(playerSelection.length)
-  if(playerSelection.length !== level) {
-    cellElements.forEach((cell, index) => {
+  if(playerThrow.length !== level && !endGame) {
+    cellElements.forEach((cell) => {
       cell.classList.remove('no-click')
       cell.addEventListener('click', () => {
-        playerSelection.push(cell.id);
-        console.log(playerSelection.length)
-        if (playerSelection.length === level) {
+        playerThrow.push(parseInt(cell.id,10));
+      
+        check(cpuThrow, playerThrow)
+        console.log(cpuThrow, playerThrow)
+
+        if (playerThrow.length === level) {
           console.log('array lleno')
           cellElements.forEach(cell => {
-            cell.classList.add('no-click')
+          cell.classList.add('no-click')
           })
         }
       })
     })
   }
+}
+
+function check (cpu, player) {
+  for (index = 0; index < playerThrow.length; index++) {
+    if (player[index] !== cpu[index]) {
+      endGame = true
+      return false
+    } else {
+      console.log(`Index jugador: ${player[index]} - Index CPU ${cpu[index]}`)
+    }
+  }
+  return true
 }
 
 
@@ -147,11 +168,8 @@ function highlightCell (cell, color, delayColor){
 }
 
 async function cpu2(level) {
-  const inicio = Date.now()
-  console.log(inicio)
   const cpuThrow = randomThrow(level)
   const cells = document.querySelectorAll('.cell')
-
   for (let i = 0; i < cells.length; i++) {
     console.log(`iteracion${i}`)
     await delay(1000)
@@ -170,8 +188,5 @@ async function cpu2(level) {
     }
   }
   console.log('termianda la funcion cpu2', cpuThrow)
-  const fin = Date.now()
-  console.log(fin)
-
 }
 

@@ -4,27 +4,34 @@
     padding: 0;
 }
 
-.body{
+body{
     min-width: 100vw;
     height: 100vh;
-    display: flex;
 }
 
-.article {
+.game {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.gameData {
+    height: 30%
 }
 
 .board {
-    width: fit-content;
     display:grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
+    gap: 2px;
 }
 
 .cell {
     width: 150px;
     height: 150px;
     border: 3px solid black;
+    border-radius: 10px;
 }
 
 .cell:hover,
@@ -35,4 +42,9 @@
 
 .no-click {
     pointer-events: none;
+}
+
+.buttons {
+    height: 30%;
+    margin-top: 30px;
 }
