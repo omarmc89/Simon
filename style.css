@@ -144,6 +144,18 @@ body{
 #cell-3 {
     background-color: #1e278a;  
 }
+#cell-4 {
+    background-color: #674ea7; /*#946ff2*/
+}
+#cell-5 {
+    background-color: #c98200; /*#ffa808*/
+}
+#cell-6 {
+    background-color: #c40092; /*#ff08c0*/ 
+}
+#cell-7 {
+    background-color: #167e7e; /*#31feff*/ 
+}
 
 .cell:hover,
 .cell:focus {
