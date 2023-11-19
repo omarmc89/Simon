@@ -8,11 +8,32 @@
         <meta name="Simon Says - DWES" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     </head>
     <body>
         <article class="game">
             <section class="gameData">
-                <h1>SIMON GAME</h1>
+                <div class="presentation">
+                    <h1 class="title">SIMON GAME</h1>
+                    <div class="description">
+                        <p>Simon, el clásico juego de memoria, en el que tienes que repetir el patrón de la cpu.
+                            Si fallas se reiniciará el contador de tiradas y por cada rango de tiradas superado se incrementa la dificultad.
+                        </p>
+                        <ul class="list">
+                            <li>10 rondas superadas, + velocidad en el patrón.</li>
+                            <li>15 se añaden 2 colores.</li>
+                            <li>20 añadimos otros dos colores.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="roundData">
+                    <div class="scoreBoard">
+                        <span class="material-symbols-outlined">scoreboard</span>
+                        <p>Round:</p>
+                        <p class="currentScore"></p>
+                    </div>
+                    <p class="throwOk">Correcto!</p>
+                </div>
             </section>
             <section class="board">
             </section>
@@ -23,6 +44,10 @@
         </article>
         <section class="mainMessage" id="fail">
             <div><h1>Fallo!</h1></div>
+            <button class="mainBtn">Volver</button>
+        </section>
+        <section class="mainMessage" id="correct">
+            <div><h1>Correcto!</h1></div>
             <button class="mainBtn">Volver</button>
         </section>
 

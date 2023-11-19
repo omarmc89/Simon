@@ -1,7 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Rubik:wght@300;400;500;600;700&display=swap');
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Rubik'
 }
 
 body{
@@ -24,6 +28,59 @@ body{
     align-items: center;
     height: 100%;
     z-index: 10
+}
+
+.title {
+    font-family: 'Bungee Spice';
+    font-size: 50px;
+    text-align: center;
+}
+
+.presentation .description{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:center;
+    text-align: center;
+}
+
+.list {
+    margin-top: 5px;
+    text-align: start;
+}
+
+.list li::marker{
+    content:"🎲";
+}
+
+.roundData {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: auto;
+}
+
+.scoreBoard,
+.throwOk {
+    width: 50vw;
+    height: auto;
+    font-size: 40px;
+    text-align: center;
+    padding-top: 50px;
+    display:flex;
+}
+.throwOk {
+    text-align: start;
+    color: green;
+    visibility:hidden;
+}
+.roundData .material-symbols-outlined {
+    font-size: 50px;
+}
+
+.scoreBoard{
+    justify-content: center;
+    align-items: center;
 }
 
 .mainMessage {
@@ -66,7 +123,7 @@ body{
 .board {
     display:grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 2px;
+    gap: 3px;
 }
 
 .cell {
@@ -91,7 +148,9 @@ body{
 .cell:hover,
 .cell:focus {
     cursor: pointer;
-    background-color: aquamarine;
+    opacity: 70%;
+    border: 2px solid black;
+    box-shadow: 5px 5px 5px
 }
 
 .no-click {
@@ -101,4 +160,26 @@ body{
 .buttons {
     height: 30%;
     margin-top: 30px;
+}
+
+.btns {
+    font-size: 15px;
+    color: #332929;
+    text-shadow: 1px 1px 1px #aaa5a5;
+    background-color: #c6011b;
+    border-radius:50%;
+    width: 100px;
+    height: 100px;
+    border: none;
+    box-shadow: 5px 5px 5px;
+    margin: 0 20px;
+    border-top: 4px solid #de556f;
+    border-left: 4px solid #de556f;
+}
+
+.btns:hover {
+    box-shadow: 2px 2px 2px;
+    transform: scale(0.95);
+    border-top: none;
+    border-left: none;
 }

@@ -8,7 +8,7 @@
 - Nivell 1 – Un color.
 - Anem incrementant la dificultat conforme pugem de nivell.
 - Els jugadors no podran fer clic mentre la màquina reprodueix el patró.
-- Quan marquem el color el ressaltem.
+- Quan marquem el color el ressaltem. ✅
 - Mostrar errors en roig.
 - Incrementem la dificultat del joc:
 Si arriba a la ronda 10 augmentem la velocitat del patró.
@@ -22,11 +22,16 @@ let board = [];
 const startButton = document.querySelector('#startGame')
 const stopButton = document.querySelector('#stopGame')
 const boardElement = document.querySelector(".board");
+const message = document.querySelector('.mainMessage')
+const btn = document.querySelector('.mainBtn')
+const score = document.querySelector('.currentScore')
+const throwOk = document.querySelector('.throwOk')
 
 let cpuThrow = []
 let playerThrow = []
 let endGame = false;
 let gameStarted = false;
+let games = 1;
 
 
 createBoard(level);
@@ -56,8 +61,8 @@ async function startGame(level) {
 }
 
 //funcion para crear el trablero
-function createBoard(cells) {
-  board = Array(cells).fill(4);
+function createBoard(cells, level) {
+  board = Array(cells).fill(level);
   board.forEach((_, index) => {
     board[index] = index + 1;
     const div = document.createElement("div");
@@ -65,14 +70,8 @@ function createBoard(cells) {
     div.classList.add('no-click')
     div.id = `cell-${index}`;
     div.dataset.id = index
-    // const span = document.createElement("span");
-    // span.className = "cell_content";
-    // span.textContent = index;
     boardElement.appendChild(div);
-    // div.appendChild(span);
-    // div.addEventListener("click", () => {
-    //   console.log(`Seleccion ${span.textContent}`);
-    // });
+    score.innerText = games;
   });
 }
 
@@ -140,12 +139,13 @@ function player(level) {
       cellElements.forEach(cell => {
         cell.removeEventListener('click', click)
       })
-      console.log('array completado con éxito')
-      btn.addEventListener('click', () => {
-        message.style.visibility = 'hidden'
-        startGame(level)
-      })
-      await delay(3000)
+      throwOk.style.visibility = 'visible'
+
+      newThrow()
+      // btn.addEventListener('click', () => {
+      //   message.style.visibility = 'hidden'
+      //   startGame(level)
+      // })
       // startGame(level)
     }
   }
@@ -168,6 +168,16 @@ function player(level) {
       // }
     // })
   })
+}
+
+async function newThrow() {
+  games ++
+  console.log(games)
+  score.innerText = games
+  console.log('aplicando delay')
+  await delay(3000)
+  throwOk.style.visibility = 'hidden'
+  startGame(level)
 }
 
 //Comprobamos que la tirada del jugador sea igual a la de la cpu, elmento a elemento
