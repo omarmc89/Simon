@@ -1,10 +1,10 @@
 /*
 - Títol del joc i una xicoteta explicació que consisteix.
 - Indiquem el nivell en el qual ens trobem.
-- Boton start.
-- Primer juga la màquina (espera un temps).
-- Després juga l'usuari (espera un temps).
-- Iniciar el joc amb 4 colors (roig, groc, verd i blau).
+- Boton start. ✅
+- Primer juga la màquina (espera un temps). ✅
+- Després juga l'usuari (espera un temps). ✅
+- Iniciar el joc amb 4 colors (roig, groc, verd i blau). ✅
 - Nivell 1 – Un color.
 - Anem incrementant la dificultat conforme pugem de nivell.
 - Els jugadors no podran fer clic mentre la màquina reprodueix el patró.
@@ -26,12 +26,18 @@ const boardElement = document.querySelector(".board");
 let cpuThrow = []
 let playerThrow = []
 let endGame = false;
+let gameStarted = false;
 
 
 createBoard(level);
 
 startButton.addEventListener('click', e => {
+  if (!gameStarted){
   startGame(level)
+  gameStarted = true
+  } else {
+    console.log("juego ya inciado")
+  }
 })
 stopButton.addEventListener('click', e => {
   console.log("Game stopped")
@@ -40,30 +46,33 @@ stopButton.addEventListener('click', e => {
 
 const cellElements = document.querySelectorAll(".cell");
 
+// inicio de la tirada de la cpu y correspondiente espera para la tirada del jugador
 async function startGame(level) {
-  console.log("ejecutando el turno la cpu.....")
+  console.log("Turno CPU....")
   await cpu2(level)
-  player(level)
-  console.log("la cpu ha termiando, turno del jugador...")
+  playerThrow = []
+  console.log("la cpu ha termiando. Turno del jugador...")
+  await player(level)
 }
 
+//funcion para crear el trablero
 function createBoard(cells) {
   board = Array(cells).fill(4);
-
   board.forEach((_, index) => {
     board[index] = index + 1;
     const div = document.createElement("div");
     div.className = "cell";
     div.classList.add('no-click')
-    div.id = index;
-    const span = document.createElement("span");
-    span.className = "cell_content";
-    span.textContent = index;
+    div.id = `cell-${index}`;
+    div.dataset.id = index
+    // const span = document.createElement("span");
+    // span.className = "cell_content";
+    // span.textContent = index;
     boardElement.appendChild(div);
-    div.appendChild(span);
-    div.addEventListener("click", () => {
-      console.log(span.textContent);
-    });
+    // div.appendChild(span);
+    // div.addEventListener("click", () => {
+    //   console.log(`Seleccion ${span.textContent}`);
+    // });
   });
 }
 
@@ -78,115 +87,169 @@ function randomThrow(level) {
   // cpuThrow.forEach((_,index) => {
   //   cpuThrow[index] = randomNumber(level)
   // })
-  cpuThrow = Array.from({ length: level }, () => randomNumber(level)); 
+  cpuThrow = Array.from({length: level}, () => randomNumber(level)); 
+  console.log(cpuThrow);
   return cpuThrow;
 }
 
 // Representar secuencia en el tablero de juego
+// function cpu(level) {
+//   cpuThrow = randomThrow(level);
+//   console.log(cpuThrow);
+//   const celdas = document.querySelectorAll(".cell");
+//   const array = Array.from(celdas).map((celda) => parseInt(celda.id, 10));
+//   for (let i = 0; i < array.length; i++) {
+//     setTimeout(() => {
+//       if (cpuThrow[i] === 0) {
+//         celdas[0].style.backgroundColor = "green";
+//         setTimeout(() => {
+//           celdas[0].style.backgroundColor = "white";
+//         }, 500);    
+//       } else if (cpuThrow[i] === 1) {
+//         celdas[1].style.backgroundColor = "red";
+//         setTimeout(() => {
+//           celdas[1].style.backgroundColor = "white";
+//         }, 500);
+//       } else if (cpuThrow[i] === 2) {
+//         celdas[2].style.backgroundColor = "yellow";
+//         setTimeout(() => {
+//           celdas[2].style.backgroundColor = "white";
+//         }, 500);
+//       } else if (cpuThrow[i] === 3) {
+//         celdas[3].style.backgroundColor = "blue";
+//         setTimeout(() => {
+//           celdas[3].style.backgroundColor = "white";
+//         }, 500);
+//       }
+//     }, i * 1500);
+//   }
+// }
 
-function cpu(level) {
-  cpuThrow = randomThrow(level);
-  console.log(cpuThrow);
-  const celdas = document.querySelectorAll(".cell");
-  const array = Array.from(celdas).map((celda) => parseInt(celda.id, 10));
-  for (let i = 0; i < array.length; i++) {
-    setTimeout(() => {
-      if (cpuThrow[i] === 0) {
-        celdas[0].style.backgroundColor = "green";
-        setTimeout(() => {
-          celdas[0].style.backgroundColor = "white";
-        }, 500);    
-      } else if (cpuThrow[i] === 1) {
-        celdas[1].style.backgroundColor = "red";
-        setTimeout(() => {
-          celdas[1].style.backgroundColor = "white";
-        }, 500);
-      } else if (cpuThrow[i] === 2) {
-        celdas[2].style.backgroundColor = "yellow";
-        setTimeout(() => {
-          celdas[2].style.backgroundColor = "white";
-        }, 500);
-      } else if (cpuThrow[i] === 3) {
-        celdas[3].style.backgroundColor = "blue";
-        setTimeout(() => {
-          celdas[3].style.backgroundColor = "white";
-        }, 500);
-      }
-    }, i * 1500);
-  }
-}
-
+// Gestionamos los clicks en las casillas correspondientes a la tirada del jugador
 function player(level) {
   const cellElements = document.querySelectorAll('.cell')
-  if(playerThrow.length !== level && !endGame) {
-    cellElements.forEach((cell) => {
-      cell.classList.remove('no-click')
-      cell.addEventListener('click', () => {
-        playerThrow.push(parseInt(cell.id,10));
-      
-        check(cpuThrow, playerThrow)
-        console.log(cpuThrow, playerThrow)
-
-        if (playerThrow.length === level) {
-          console.log('array lleno')
-          cellElements.forEach(cell => {
-          cell.classList.add('no-click')
-          })
-        }
+  const click = async (event) => {
+    console.log(cpuThrow)
+    playerThrow.push(parseInt(event.target.dataset.id,10))
+    console.log(playerThrow)
+    if (!checkThrow(cpuThrow, playerThrow)) {
+      console.log("Seleccion incorrecta")
+      return
+    }
+    if (checkLenghtArray(level, playerThrow)) {
+      cellElements.forEach(cell => {
+        cell.removeEventListener('click', click)
       })
-    })
+      console.log('array completado con éxito')
+      btn.addEventListener('click', () => {
+        message.style.visibility = 'hidden'
+        startGame(level)
+      })
+      await delay(3000)
+      // startGame(level)
+    }
+  }
+  cellElements.forEach((cell) => {
+    cell.classList.remove('no-click')
+    cell.addEventListener('click', click)
+      // console.log(cpuThrow)
+      // playerThrow.push(parseInt(cell.id,10))
+      // console.log(playerThrow)
+      // if (!checkThrow(cpuThrow, playerThrow)) {
+      //   console.log("Seleccion incorrecta")
+      //   return
+      // }
+      // if (checkLenghtArray(level, playerThrow)) {
+      //   cellElements.forEach(cell => {
+      //     cell.removeEventListener('click', () => {})
+      //   })
+      //   console.log('array completado con éxito')
+      //   startGame(level)
+      // }
+    // })
+  })
+}
+
+//Comprobamos que la tirada del jugador sea igual a la de la cpu, elmento a elemento
+function checkThrow (cpu, player) {
+  for (let index = 0; index < player.length; index++) {
+    console.log(`CPU: ${cpu[index]} - PLAYER: ${player[index]}`)
+    if (cpu[index] == player[index]) {
+      console.log("ok")
+      return true
+    } else {
+      console.log("fail")
+      showMainMessage()
+      endGame = true
+      return false
+    }
   }
 }
 
-function check (cpu, player) {
-  for (index = 0; index < playerThrow.length; index++) {
-    if (player[index] !== cpu[index]) {
-      endGame = true
-      return false
-    } else {
-      console.log(`Index jugador: ${player[index]} - Index CPU ${cpu[index]}`)
-    }
+// Comprobamos que el array tiene el mismo tamaño al de la cpu
+function checkLenghtArray (level, player) {
+  const elements = player.reduce((count) => count + 1, 0)
+  if (elements == level){
+    endGame = true
+    return true
   }
-  return true
+  return false
+}
+
+function showMainMessage () {
+  const message = document.querySelector('.mainMessage')
+  const btn = document.querySelector('.mainBtn')
+  message.style.visibility = 'visible'
+  btn.addEventListener('click', () => {
+    message.style.visibility = 'hidden'
+  })
+
 }
 
 
 // proves amb funcions asincrones................................................................
 
+// Delay para manipular el nivel del juego
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+//funcion para resaltar las casillas activadas por la cpu
 function highlightCell (cell, color, delayColor){
+  const firstColor = cell.style.backgroundColor
   return new Promise(resolve => {
     cell.style.backgroundColor = color
     setTimeout(() => {
-      cell.style.backgroundColor = 'white'
+      cell.style.backgroundColor = firstColor
       resolve();
     }, delayColor)
   })
 }
 
+
+// Funcion asincrona para añadir delay entre iteraciones.
+//De esta manera podremos manipular el nivel de dificultad.
 async function cpu2(level) {
-  const cpuThrow = randomThrow(level)
-  const cells = document.querySelectorAll('.cell')
-  for (let i = 0; i < cells.length; i++) {
-    console.log(`iteracion${i}`)
-    await delay(1000)
-    if (cpuThrow[i] === 0) {
-      console.log('verde')
-      await highlightCell (cells[0], "green", 500)
-    } else if (cpuThrow[i] === 1) {
-      console.log('rojo')
-      await highlightCell (cells[1], "red", 400)
-    } else if (cpuThrow[i] === 2) {
-      console.log('amarillo')
-      await highlightCell (cells[2], "yellow", 400)
-    } else if (cpuThrow[i] === 3) {
-      console.log('azul')
-      await highlightCell (cells[3], "blue", 400)
+    cpuThrow = randomThrow(level)
+    console.log(`tirada cpu: ${cpuThrow}`)
+    const cells = document.querySelectorAll('.cell')
+    for (let i = 0; i < cells.length; i++) {
+      console.log(`iteracion${i}`)
+      await delay(1000)
+      if (cpuThrow[i] === 0) {
+        console.log('verde')
+        await highlightCell (cells[0], "#67f73b", 1000)
+      } else if (cpuThrow[i] === 1) {
+        console.log('rojo')
+        await highlightCell (cells[1], "#f75752", 1000)
+      } else if (cpuThrow[i] === 2) {
+        console.log('amarillo')
+        await highlightCell (cells[2], "#fae92f", 1000)
+      } else if (cpuThrow[i] === 3) {
+        console.log('azul')
+        await highlightCell (cells[3], "#3646f5", 1000)
+      }
     }
-  }
-  console.log('termianda la funcion cpu2', cpuThrow)
+    console.log('termianda la funcion cpu2', cpuThrow)
 }
 
