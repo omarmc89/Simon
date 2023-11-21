@@ -24,6 +24,8 @@ footer {
     align-items: center;
 }
 
+
+
 .game .failMeessage {
     position:absolute;
     top: 50%;
@@ -47,15 +49,19 @@ footer {
 
 .title {
     font-family: 'Bungee Spice';
-    font-size: 70px;
+    font-size: 65px;
     text-align: center;
+}
+
+.presentation {
+    align-items: start;
 }
 
 .presentation .description{
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content:center;
+    justify-content: center;
     text-align: center;
     margin-bottom: 15px;
 }
@@ -81,10 +87,9 @@ footer {
 .scoreBoard,
 .throwOk {
     width: 40vw;
-    height: 60px;
-    font-size: 40px;
+    height: 40px;
+    font-size: 30px;
     text-align: center;
-    margin-top: 20px;
     display:flex;
     align-items: center;
     justify-content: center;
@@ -99,7 +104,7 @@ footer {
     transition: all 0.5s ease-in-out;
 }
 .roundData .material-symbols-outlined {
-    font-size: 50px;
+    font-size: 35px;
 }
 
 .scoreBoard{
@@ -153,13 +158,79 @@ footer {
 }
 
 .gameData {
-    height: 30%
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.playerData {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100vw;
+}
+
+.player {
+    display:flex;
+    text-align: center;
+    margin: 10px 0;
+    font-size: 20px;
+    background-color: #623c89;
+    color: white;
+    border-radius: 10px;
+    width: fit-content;
+    padding: 5px;
+    text-align: center;
+}
+
+.player input {
+    font-size: 20px;
+    background-color: transparent;
+    border:none;
+    color: orange;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.5 ease-in-out;
+    height: 30px;
+}
+
+.player label {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5px;
+}
+
+.player input:hover,
+.player input:focus,
+.player input:active
+ {
+    outline:none;
+    border-bottom: 2px solid white;
+    text-align: center;
+    font-size: 22px;
+}
+
+.nameWarning {
+    display: flex;
+    width: 400px;
+    font-size: 18px;
+    color: red;
+    align-items: center;
+}
+
+.no-visible {
+    visibility: hidden;
 }
 
 .board {
     display:grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
+    margin: 20px;
 }
 
 .cell {
@@ -234,7 +305,7 @@ footer {
 }
 
 .buttons {
-    height: 30%;
+    height: 15%;
     display:flex;
     align-items: center;
     justify-content: center;

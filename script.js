@@ -26,6 +26,7 @@ let playerThrow = []
 let endGame = false;
 let gameStarted = false;
 let games = 1;
+let playerName = ""
 const firstBoard = 4
 const startButton = document.querySelector('#startGame')
 const stopButton = document.querySelector('#stopGame')
@@ -34,6 +35,7 @@ const message = document.querySelector('.mainMessage')
 const btn = document.querySelector('.mainBtn')
 const score = document.querySelector('.currentScore')
 const throwOk = document.querySelector('.throwOk')
+const inputPlayerName = document.querySelector('#playerName')
 const sound = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound2.mp3")
 const startSound = new Audio ("https://commondatastorage.googleapis.com/codeskulptor-demos/riceracer_assets/music/start.ogg")
 
@@ -41,16 +43,24 @@ const startSound = new Audio ("https://commondatastorage.googleapis.com/codeskul
 createBoard(4);
 
 startButton.addEventListener('click', async (e) => {
-  if (!gameStarted){
-  startSound.volume = 0.2
-  startSound.play()
-  await delay(4000)
-  startGame(level)
-  gameStarted = true
+  playerName = inputPlayerName.value
+  console.log(playerName)
+  if (playerName === '') {
+    document.querySelector('.nameWarning').classList.remove('no-visible')
   } else {
-    console.log("juego ya inciado")
+    if (!gameStarted){
+    startSound.volume = 0.2
+    startSound.play()
+    document.querySelector('.nameWarning').classList.add('no-visible')
+    await delay(4000)
+    startGame(level)
+    gameStarted = true
+    } else {
+      console.log("juego ya inciado")
+    }
   }
 })
+
 stopButton.addEventListener('click', e => {
   console.log("Game stopped")
   window.location.reload()
