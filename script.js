@@ -325,7 +325,8 @@ function highlightCell (cell, color, delayColor){
 // Funcion asincrona para añadir delay entre iteraciones.
 //De esta manera podremos manipular el nivel de dificultad.
 async function cpu2(level, playingCells, currentLevelDelay) {
-    cpuThrow = randomThrow(level, playingCells)
+    // cpuThrow = randomThrow(level, playingCells)
+    cpuThrow.push(randomNumber(playingCells))
     console.log(`tirada cpu: ${cpuThrow}`)
     const cells = document.querySelectorAll('.cell')
     for (let i = 0; i < cpuThrow.length; i++) {
