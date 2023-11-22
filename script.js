@@ -40,7 +40,9 @@ const tbody = document.getElementById('tbody')
 const sound = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound2.mp3")
 const startSound = new Audio ("https://commondatastorage.googleapis.com/codeskulptor-demos/riceracer_assets/music/start.ogg")
 
+//iniciar el json server en el puerto 3000 y con el archivo db.json.
 
+// funcion para añadir el usuario y en caso de que ya exista añada la puntuación.
 async function addPlayerScore (player, score) {
   const headers = {"Content-Type": "application/json"}
   const res = await fetch(`http://localhost:3000/players?name=${player}`)
@@ -67,6 +69,7 @@ async function addPlayerScore (player, score) {
   }
 }
 
+//Fetch para crear la tabla del ranking con los datoa de la bd
 fetch ("http://localhost:3000/players")
 .then (res => res.json())
 .then (json => {
@@ -74,7 +77,7 @@ fetch ("http://localhost:3000/players")
     tbody.append(table(data.name, data.avatar, data.scores)) 
   })
 })
-
+//Funcion para añadir cada linea de la tabla 
 function table (name, avatar, scores) {
   let tr = document.createElement('tr')
   tr.innerHTML = `
@@ -90,9 +93,10 @@ function table (name, avatar, scores) {
   </td>`
   return tr
 }
-
+//Creamos el tablero con los 4 colores
 createBoard(4);
 
+//Definimos el boton para empezar la partida
 startButton.addEventListener('click', async () => {
   playerName = inputPlayerName.value
   console.log(playerName)
@@ -112,6 +116,7 @@ startButton.addEventListener('click', async () => {
   }
 })
 
+//Boton stop para cancelar y recargar la pagina
 stopButton.addEventListener('click', () => {
   console.log("Game stopped")
   window.location.reload()
@@ -243,6 +248,8 @@ function player(cpuThrow) {
   })
 }
 
+//Función que se encarga de que cada vez que se finalice el turno con éxito actualice
+//variables y aplique un delay hasta el inico de la nueva ronda.
 async function newThrow() {
   level ++
   console.log("bloqueando casillas")
@@ -325,8 +332,8 @@ function checkThrow (cpu, player) {
   return true
 }
 
+//Función encargada de parar la partida y mostrar mensaje de fallo al equivocarse de color
 function endGameFunction () {
-  console.log("fail")
   startButton.style.visibility = 'hidden'
   stopButton.innerText = 'Reiniciar'
   cellElements.forEach((cell) => {
@@ -345,9 +352,13 @@ function checkLenghtArray (cpuThrow, player) {
   return false
 }
 
+//Función para mostrar el letrero de fallo y actualizar la bd con el resultado de la partida.
 function showMainMessage () {
   const message = document.querySelector('.mainMessage')
   const btn = document.querySelector('.mainBtn')
+  const totalGamesPlayed = document.createElement('h2')
+  totalGamesPlayed.innerText = `Has llegado al nivel ${level}. Vuelve a intentarlo!`
+  message.append(totalGamesPlayed)
   message.style.visibility = 'visible'
   btn.addEventListener('click', () => {
     message.style.visibility = 'hidden'
@@ -355,6 +366,7 @@ function showMainMessage () {
   })
 }
 
+//Función para añadir la clase "no-click" a las celdas.
 function addNoClickClass () {
   const cells = document.querySelectorAll('.cell')
   cells.forEach((cell) => {

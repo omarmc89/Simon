@@ -5,29 +5,52 @@
       "scores": [
         2,
         6,
-        4
+        4,
+        15,
+        20
       ],
-      "id": 1,
-      "avatar": "https://api.multiavatar.com/omar.png"
-      
+      "avatar": "https://api.multiavatar.com/omar.png",
+      "id": 1
     },
     {
-      "id": 2,
       "name": "Marina",
       "scores": [
         5,
-        10
+        10,
+        12
       ],
-      "avatar": "https://api.multiavatar.com/marina.png"
+      "avatar": "https://api.multiavatar.com/marina.png",
+      "id": 2
     },
     {
       "name": "Noah",
       "scores": [
         2,
-        8
+        8,
+        17
       ],
       "id": 3,
       "avatar": "https://api.multiavatar.com/noah.png"
+    },
+    {
+      "name": "Manolo",
+      "scores": [
+        2,
+        1
+      ],
+      "avatar": "https://api.multiavatar.com/Manolo.png",
+      "id": 4
+    },
+    {
+      "name": "Eli",
+      "scores": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "avatar": "https://api.multiavatar.com/Eli.png",
+      "id": 5
     }
   ]
 }

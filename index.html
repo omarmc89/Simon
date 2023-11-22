@@ -18,67 +18,57 @@
     <header class="header">
         <p class="title">SIMON GAME</p>
     </header>
-    <article class="gameAndButtons">
-        <article class="game">
-            <section class="gameData">
-                <div class="presentation">
-                    <div class="description">
-                        <p>Simon, el clásico juego de memoria, en el que
-                            tienes
-                            que repetir el patrón de la cpu.
-                            Si fallas se reiniciará el contador de tiradas y
-                            por
-                            cada rango de tiradas superado se incrementa la
-                            dificultad.
-                        </p>
-                        <ul class="list">
-                            <li>10 rondas superadas, + velocidad en el
-                                patrón.</li>
-                            <li>15 se añaden 2 colores.</li>
-                            <li>20 añadimos otros dos colores.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="playerData">
-                    <div class="player">
-                        <label for="playerName">Nombre jugador:</label>
-                        <input type="text" id="playerName" name="playerName">
-                    </div>
-                    <div class="nameWarning no-visible">
-                        <p class="nameWarning">
-                            <span class="material-symbols-outlined">error</span>
-                            Debes introducir un nombre de jugador
-                        </p>
-                    </div>
-                </div>
-                <div class="roundData">
-                    <div class="scoreBoard">
-                        <span class="material-symbols-outlined">scoreboard</span>
-                        <p>Nivel:</p>
-                        <p class="currentScore"></p>
-                    </div>
-                    <p class="throwOk">Correcto!</p>
-                </div>
-            </section>
-            <section class="board">
-            </section>
-        </article>
+    <article class="presentation">
+        <div class="description">
+            <p>Simon, el clásico juego de memoria, en el que
+                tienes
+                que repetir el patrón de la cpu.
+                Si fallas se reiniciará el contador de tiradas y
+                por
+                cada rango de tiradas superado se incrementa la
+                dificultad.
+            </p>
+            <ul class="list">
+                <li>10 rondas superadas, + velocidad en el
+                    patrón.</li>
+                <li>15 se añaden 2 colores.</li>
+                <li>20 añadimos otros dos colores.</li>
+            </ul>
+        </div>
+    </article>
+    <article class="gameData">
+        <div class="playerData">
+            <div class="player">
+                <label for="playerName">Nombre jugador:</label>
+                <input type="text" id="playerName" name="playerName">
+            </div>
+            <div class="nameWarning no-visible">
+                <p class="nameWarning">
+                    <span class="material-symbols-outlined">error</span>
+                    Debes introducir un nombre de jugador
+                </p>
+            </div>
+        </div>
+        <div class="roundData">
+            <div class="scoreBoard">
+                <span class="material-symbols-outlined">scoreboard</span>
+                <p>Nivel:</p>
+                <p class="currentScore"></p>
+            </div>
+            <p class="throwOk">Correcto!</p>
+        </div>
+    </article>
+    <article class="game">
+        <section class="board">
+        </section>
     </article>
     <section class="buttons">
         <button class="btns" id="startGame"><span class="material-symbols-outlined">play_arrow</span></button>
         <button class="btns" id="stopGame">Cancelar</button>
     </section>
     <section class="mainMessage" id="fail">
-        <div>
-            <h1>Fallo!</h1>
-        </div>
-        <button class="mainBtn">Volver</button>
-    </section>
-    <section class="mainMessage" id="correct">
-        <div>
-            <h1>Correcto!</h1>
-        </div>
-        <button class="mainBtn">Volver</button>
+        <h1>Fallo!</h1>
+        <button class="mainBtn">Reinciar</button>
     </section>
     <article class="ranking">
         <div class="p-10 bg-surface-secondary">
