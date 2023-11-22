@@ -36,6 +36,7 @@ const btn = document.querySelector('.mainBtn')
 const score = document.querySelector('.currentScore')
 const throwOk = document.querySelector('.throwOk')
 const inputPlayerName = document.querySelector('#playerName')
+const tbody = document.getElementById('tbody')
 const sound = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound2.mp3")
 const startSound = new Audio ("https://commondatastorage.googleapis.com/codeskulptor-demos/riceracer_assets/music/start.ogg")
 
@@ -45,14 +46,15 @@ async function addPlayerScore (player, score) {
   const res = await fetch(`http://localhost:3000/players?name=${player}`)
   const playerData = await res.json()
   if (Object.keys(playerData).length === 0 ) {
-    const dataToInsert = {"name":player, "scores":[score]}
-    const response = await fetch(`http://localhost:3000/players`,{method:"POST", headers: headers, body: JSON.stringify(dataToInsert)})
+    const dataToInsert = {"name":player, "scores":[score], "avatar": `https://api.multiavatar.com/${player}.png`
+    }
+    const response = await fetch(`http://localhost:3000/players`, {method:"POST", headers: headers, body: JSON.stringify(dataToInsert)})
     await console.log(response)
   } else {
     const id = playerData[0].id
     const playerScores = Array.from(playerData[0].scores)
     playerScores.push(score)
-    const dataToUpdate = {"name": player, "scores":playerScores}
+    const dataToUpdate = {"name": player, "scores":playerScores, "avatar":playerData[0].avatar}
     const options = {
       method: "PUT",
       headers : {
@@ -63,6 +65,30 @@ async function addPlayerScore (player, score) {
     const response = await fetch(`http://localhost:3000/players/${id}`, options)
     await console.log(response)
   }
+}
+
+fetch ("http://localhost:3000/players")
+.then (res => res.json())
+.then (json => {
+  json.map(data => {
+    tbody.append(table(data.name, data.avatar, data.scores)) 
+  })
+})
+
+function table (name, avatar, scores) {
+  let tr = document.createElement('tr')
+  tr.innerHTML = `
+  <td data-label="Job Title">
+    <img alt="..." src="${avatar}"
+    class="w-25 avatar avatar-sm rounded-circle me-2">
+  </td>
+  <td data-label="Email">
+    <span>${name}</span>
+  </td>
+  <td data-label="Phone">
+    <span>${Math.max(...scores)}</span>
+  </td>`
+  return tr
 }
 
 createBoard(4);
@@ -180,7 +206,6 @@ function player(cpuThrow) {
     console.log(playerThrow)
     if (!checkThrow(cpuThrow, playerThrow)) {
       console.log("Seleccion incorrecta")
-      addPlayerScore(playerName, level)
       return
     }
     if (checkLenghtArray(cpuThrow, playerThrow)) {
@@ -326,6 +351,7 @@ function showMainMessage () {
   message.style.visibility = 'visible'
   btn.addEventListener('click', () => {
     message.style.visibility = 'hidden'
+    addPlayerScore(playerName, level)
   })
 }
 
@@ -404,4 +430,6 @@ async function cpu2(level, playingCells, currentLevelDelay) {
     }
     console.log('termianda la funcion cpu2', cpuThrow)
 }
+
+
 
