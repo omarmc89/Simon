@@ -40,9 +40,34 @@ const sound = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound2.mp3")
 const startSound = new Audio ("https://commondatastorage.googleapis.com/codeskulptor-demos/riceracer_assets/music/start.ogg")
 
 
+async function addPlayerScore (player, score) {
+  const headers = {"Content-Type": "application/json"}
+  const res = await fetch(`http://localhost:3000/players?name=${player}`)
+  const playerData = await res.json()
+  if (Object.keys(playerData).length === 0 ) {
+    const dataToInsert = {"name":player, "scores":[score]}
+    const response = await fetch(`http://localhost:3000/players`,{method:"POST", headers: headers, body: JSON.stringify(dataToInsert)})
+    await console.log(response)
+  } else {
+    const id = playerData[0].id
+    const playerScores = Array.from(playerData[0].scores)
+    playerScores.push(score)
+    const dataToUpdate = {"name": player, "scores":playerScores}
+    const options = {
+      method: "PUT",
+      headers : {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(dataToUpdate)
+    }
+    const response = await fetch(`http://localhost:3000/players/${id}`, options)
+    await console.log(response)
+  }
+}
+
 createBoard(4);
 
-startButton.addEventListener('click', async (e) => {
+startButton.addEventListener('click', async () => {
   playerName = inputPlayerName.value
   console.log(playerName)
   if (playerName === '') {
@@ -61,7 +86,7 @@ startButton.addEventListener('click', async (e) => {
   }
 })
 
-stopButton.addEventListener('click', e => {
+stopButton.addEventListener('click', () => {
   console.log("Game stopped")
   window.location.reload()
 })
@@ -155,6 +180,7 @@ function player(cpuThrow) {
     console.log(playerThrow)
     if (!checkThrow(cpuThrow, playerThrow)) {
       console.log("Seleccion incorrecta")
+      addPlayerScore(playerName, level)
       return
     }
     if (checkLenghtArray(cpuThrow, playerThrow)) {
